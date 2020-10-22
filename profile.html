@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>ユーザープロフィール</title>
+        <link rel="stylesheet" type="text/css" href="profile.css">
+    </head>
+    
+    <body>
+        <h1>プロフィール</h1>
+        <form id="user" method="POST">
+            <p>
+                氏名：
+                <input type="text" name="user_name">
+            </p>
+            <p>
+                年齢：
+                <input type="number" name="user_age">
+            </p>
+            <p>性別：
+                <input type="radio" name="gender" value="男">男性
+                <input type="radio" name="gender" value="女">女性
+            </p>
+            <p>
+                住所：
+            </p>
+                <textarea rows="3" name="user_address" form="user"></textarea> 
+            <p>
+                電話番号：
+                <input type="tel" name="user_tel">
+            </p>
+        </form>
+        <p>
+            <a href="index.html">戻る</a>
+        </p>
+    </body>
+</html>
