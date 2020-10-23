@@ -3,21 +3,31 @@
 <html lang="ja">
 
 <head>
+    <meta charset="UTF-8">
     <title>お助け投稿</title>
+    <link rel="stylesheet" type="text/css" href="help.css">
 </head>
 
 <body>
     <h1>お手伝いの内容を書いてください</h1>
-    <form action="#" method="post">
-        <label>仕事内容<br><select id="outline"></label>
-        <option value="買い物">買い物</option>
-        <option value="家の手伝い">家の手伝い</option>
-        <option value="庭の掃除">庭の掃除</option>
-        <option value="その他">その他</option>
-        </select>
-        <label><br>詳細<br><textarea name="detail" cols="40" rows="8"
-                placeholder="何か詳細があればここに書いてください。"></textarea></label>
-        <p><a href="index.html"></a><input type="submit" value="送信する"></a></p>
+    <form action="index.html" method="post">
+        <dl>
+            <dt>仕事内容</dt>
+            <dd><select id="outline">
+                    <option value="買い物">買い物</option>
+                    <option value="家の手伝い">家の手伝い</option>
+                    <option value="庭の掃除">庭の掃除</option>
+                    <option value="その他">その他</option>
+                </select>
+            </dd>
+            <label>
+                <dt>詳細<br></dt>
+                <dd>
+                    <textarea name="detail" cols="40" rows="8" placeholder="何か詳細があればここに書いてください。"></textarea>
+            </label>
+            </dd>
+        </dl>
+        <p><input type="submit" value="送信する"></p>
     </form>
     <p>
         <a href="index.html">戻る</a>
