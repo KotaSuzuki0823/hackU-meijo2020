@@ -1,18 +1,23 @@
-import os
-from flask import Flask, jsonify, abort, make_response, request
-from azure.cosmosdb.table.tableservice import TableService
 import hashlib
+import os
 
-# Azure Table Strageを使用
-strage_key = os.getenv('AZURE_STRAGE_KEY')
-strage_name = os.getenv('AZURE_STRAGE_NAME')
+from azure.cosmosdb.table.tableservice import TableService
+from flask import Flask, abort, jsonify, make_response, request
+
+# システム変数(環境変数)から取得
+STORAGE_KEY = os.getenv('AZURE_STRAGE_KEY')
+STORAGE_NAME = os.getenv('AZURE_STRAGE_NAME')
 
 AZURE_TABLENAME_USER = 'user'
 AZURE_TABLENAME_HELP = 'help'
 
-api = Flask(__name__)
+# REAT API用
+API = Flask(__name__)
 
-@api.route('/user/registration', methods=['POST'])
+# Azure Table Serviceに接続
+table_service = TableService(account_name=STORAGE_NAME, account_key=STORAGE_KEY)
+
+@API.route('/user/registration', methods=['POST'])
 def user_registration():
     '''
     ユーザー登録
@@ -21,7 +26,8 @@ def user_registration():
     try:
         # クエストからユーザ情報を抽出し辞書型に変換
         userdata = {
-            'PartitionKey': hashlib.sha256(request.form["user_id"]).hexdigest(),  # 必須のキー情報,user_idをSHA256でハッシュ化
+            # 必須のキー情報,user_idをSHA256でハッシュ化
+            'PartitionKey': hashlib.sha256(request.form["user_id"]).hexdigest(),  
             'RowKey': request.form["user_id"],        # 必須のキー情報，ユーザID
             'user_name': request.form["user_name"],
             'user_nic': request.form["user_nic"],
@@ -33,11 +39,13 @@ def user_registration():
         }
 
         # DBへユーザ情報を追加
-        TableService.insert_or_replace_entity(AZURE_TABLENAME_USER, userdata)   
-    except:
+        table_service.insert_or_replace_entity(AZURE_TABLENAME_USER, userdata)
+
+    except Exception as except_var:
+        print("except:"+except_var)
         abort(500)
 
-@api.route('/user/get', methods=['GET'])
+@API.route('/user/get', methods=['GET'])
 def get_user():
     '''
     ユーザー情報の応答
@@ -45,29 +53,29 @@ def get_user():
     '''
     try:
         # クエリ文字列から検索するエリアを指定
-        # http://ocalhost:3000/user/get?area=aichi&num=1
+        # http://localhost:3000/user/get?area=aichi&num=1
         user_area = request.args.get('area')
 
         # 辞書表示に使うインデックス
         number = request.args.get('num') - 1
 
         # テーブルからエリア条件に一致するユーザを取得
-        userlist = TableService.query_entities(
+        userlist = table_service.query_entities(
             table_name=AZURE_TABLENAME_USER,
-            places=user_area
+            filter="places eq " + user_area
         )
 
         if number < len(userlist):
             user = userlist[number]
 
             result = {
-            "result":True,
-            "data":{
-                "userId":user.userId,
-                "user_name":user.name,
-                "user_gender":user.gender,
-                "user_age":user_age
-                }
+                "result":True,
+                "data":{
+                    "userId":user.userId,
+                    "user_name":user.uset_name,
+                    "user_gender":user.gender,
+                    "user_age":user.user_age
+                    }
             }
 
         else:
@@ -76,24 +84,13 @@ def get_user():
                 "result":False
             }
 
-    except:
+    except Exception as except_var:
+        print("except:"+except_var)
         abort(500)
 
     return make_response(jsonify(result))
 
-def get_user_by_userid(userid):
-    '''
-    useridから情報を取得
-    :return:useridに対応するユーザ情報
-    '''
-    userdata = table_service.get_entity(
-        table_name='user',
-        partition_key=hashlib.sha256(request.form["user_id"]).hexdigest(),
-        row_key=userid)
-    
-    return userdata
-
-@api.route('/help_offer/registration', methods=['POST'])
+@API.route('/help_offer/registration', methods=['POST'])
 def help_offer_registration():
     '''
     お助け情報の登録
@@ -101,37 +98,37 @@ def help_offer_registration():
     '''
     try:
         helpdata = {
-            'PartitionKey': hashlib.sha256(request.form["user_id"]).hexdigest(),  # 必須のキー情報,user_idをSHA256でハッシュ化
-            'RowKey': request.form["user_id"],        # 必須のキー情報，ユーザID
-            'user_name': request.form["outline"],
-            'user_nic': request.form["detail"],
+            # 必須のキー情報,user_idをSHA256でハッシュ化
+            'PartitionKey': hashlib.sha256(request.form["user_id"]).hexdigest(),
+            # 必須のキー情報，ユーザID
+            'RowKey': request.form["user_id"],
+            'outline': request.form["outline"],
+            'detail': request.form["detail"],
             'can_do': request.form["can_do"]
         }
         # お助け情報の追加
-        TableService.insert_or_replace_entity(AZURE_TABLENAME_HELP, helpdata)  
-    except:
+        table_service.insert_or_replace_entity(AZURE_TABLENAME_HELP, helpdata)
+
+    except Exception as except_var:
+        print("except:"+except_var)
         abort(500)
 
-@api.route('/help_offer/get', methods=['GET'])
+@API.route('/help_offer/get', methods=['GET'])
 def get_help_offer():
     '''
     お助け情報の送信
     :return:
     '''
-    try:
-        #DBへユーザ情報を追加
+    pass
 
-    except:
-        abort(500)
-
-
-@api.errorhandler(404)
+@API.errorhandler(404)
 def not_found(error):
     '''
     404エラー
     :return:
     '''
+    print(error)
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-    api.run(host='0.0.0.0', port=3000)
+    API.run(host='0.0.0.0', port=3000)
