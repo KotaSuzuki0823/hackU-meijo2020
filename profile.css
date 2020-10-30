@@ -27,6 +27,14 @@ dl dd{
     padding: 1em 0 1em 18em;
 }
 
+dd #places{
+    text-align: 1em;
+    height: 1.5em;
+    width: 4em;
+    font-size: 1em;
+    margin-right: 1em;
+}
+
 input[type="text"]{
     width: 50%;
 }
@@ -36,6 +44,11 @@ input{
     padding: 5px;
 }
 
+textarea{
+    font-size: 1em;
+    min-width: 50%;
+    height: 1em;
+}
 .submit{
     margin-left: 45%;
     font-size: 2em;

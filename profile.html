@@ -10,7 +10,7 @@
 
 <body>
     <h1>初期登録画面</h1>
-    <form id="user" method="POST" action="index.html">
+    <form id="user" method="POST">
         <dl>
             <label>
                 <dt>名前</dt>
@@ -31,13 +31,14 @@
             </label>
             <dt class="adress">住所</dt>
             <dd>
-                <select name="places">
+                <select name="places" id="places">
                     <option value="aichi" selected>愛知</option>
                     <option value="gihu">岐阜</option>
                     <option value="mie">三重</option>
                     <option value="shizuoka">静岡</option>
-                </select>県
+                </select>
             </dd>
+            <dt>住所（県以下）</dt>
             <dd>
                 <textarea placeholder="県以下の住所を書いてください(任意)" rows="3" name="user_address" form="user"></textarea>
             </dd>
@@ -52,11 +53,19 @@
                 <input type="checkbox" name="can_do" value="other">その他
             </dd>
         </dl>
-        <p class="submit"><input type="submit" name="submit" value="登録する"></p>
+        <!--
+        <input type="submit" name="submit" value="登録する" formaction="">
+        -->
+        <input type="submit" name="submit" value="登録する">
     </form>
     <p class="back">
         <a href="index.html">戻る</a>
     </p>
+    <div id="result"></div>
+
+    <script src="./js/jquery-3.5.1.min.js"></script>
+	<script src="./js/profile.js"></script>
+
 </body>
 
 </html>
