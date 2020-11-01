@@ -23,27 +23,42 @@ def user_registration():
     ユーザー登録
     :return:
     '''
+    print("user registration")
     try:
         # クエストからユーザ情報を抽出し辞書型に変換
         userdata = {
             # 必須のキー情報,user_idをSHA256でハッシュ化
-            'PartitionKey': hashlib.sha256(request.form["user_id"]).hexdigest(),  
+            'PartitionKey': hashlib.sha256(request.form["user_id"].encode('utf-8')).hexdigest(),
+            #'PartitionKey': request.form["user_id"],  
             'RowKey': request.form["user_id"],        # 必須のキー情報，ユーザID
             'user_name': request.form["user_name"],
             'user_nic': request.form["user_nic"],
             'gender': request.form["gender"],
             'user_age': int(request.form["user_age"]),
             'places': request.form["places"],
+            'user_address': request.form["user_address"],
             'user_tel': request.form["user_tel"],
             'can_do': request.form["can_do"]
         }
+        print (userdata)
 
         # DBへユーザ情報を追加
-        table_service.insert_or_replace_entity(AZURE_TABLENAME_USER, userdata)
+        #table_service.insert_or_replace_entity(AZURE_TABLENAME_USER, userdata)
+        print("send data to azure")
 
-    except Exception as except_var:
-        print("except:"+except_var)
+        result = {
+                "result":True,
+                "data":{
+                    "userId":userdata['RowKey'],
+                    "user_hash":userdata["PartitionKey"]
+                    }
+                }
+
+    except Exception as exceptvar:
+        print("except:"+ str(exceptvar))
         abort(500)
+
+    return make_response(jsonify(result))
 
 @API.route('/user/get', methods=['GET'])
 def get_user():
@@ -71,10 +86,10 @@ def get_user():
             result = {
                 "result":True,
                 "data":{
-                    "userId":user.userId,
-                    "user_name":user.uset_name,
-                    "user_gender":user.gender,
-                    "user_age":user.user_age
+                    "userId":user["RowKey"],
+                    "user_name":user['user_name'],
+                    "user_gender":user['gender'],
+                    "user_age":user['user_age']
                     }
             }
 
@@ -101,17 +116,28 @@ def help_offer_registration():
             # 必須のキー情報,user_idをSHA256でハッシュ化
             'PartitionKey': hashlib.sha256(request.form["user_id"]).hexdigest(),
             # 必須のキー情報，ユーザID
-            'RowKey': request.form["user_id"],
+            'RowKey': request.form["help_id"],
             'outline': request.form["outline"],
             'detail': request.form["detail"],
             'can_do': request.form["can_do"]
         }
         # お助け情報の追加
         table_service.insert_or_replace_entity(AZURE_TABLENAME_HELP, helpdata)
+        print("send data to azure")
+
+        result = {
+                "result":True,
+                "data":{
+                    "helpId":userdata['RowKey'],
+                    "help_hash":userdata["PartitionKey"]
+                    }
+                }
 
     except Exception as except_var:
         print("except:"+except_var)
         abort(500)
+
+    return make_response(jsonify(result))
 
 @API.route('/help_offer/get', methods=['GET'])
 def get_help_offer():
@@ -131,4 +157,4 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-    API.run(host='0.0.0.0', port=3000)
+    API.run(host='localhost', port=3000, debug=True)
