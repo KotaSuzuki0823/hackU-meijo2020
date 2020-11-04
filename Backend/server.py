@@ -1,3 +1,6 @@
+'''
+    Azure上で動かすバックエンドサーバプログラム
+'''
 import hashlib
 import os
 
@@ -15,7 +18,7 @@ AZURE_TABLENAME_HELP = 'help'
 API = Flask(__name__)
 
 # Azure Table Serviceに接続
-table_service = TableService(account_name=STORAGE_NAME, account_key=STORAGE_KEY)
+TABLE_SERVICE = TableService(account_name=STORAGE_NAME, account_key=STORAGE_KEY)
 
 @API.route('/user/registration', methods=['POST'])
 def user_registration():
@@ -29,8 +32,7 @@ def user_registration():
         userdata = {
             # 必須のキー情報,user_idをSHA256でハッシュ化
             'PartitionKey': hashlib.sha256(request.form["user_id"].encode('utf-8')).hexdigest(),
-            #'PartitionKey': request.form["user_id"],  
-            'RowKey': request.form["user_id"],        # 必須のキー情報，ユーザID
+            'RowKey': request.form["user_id"],   # 必須のキー情報，ユーザID
             'user_name': request.form["user_name"],
             'user_nic': request.form["user_nic"],
             'gender': request.form["gender"],
@@ -40,19 +42,19 @@ def user_registration():
             'user_tel': request.form["user_tel"],
             'can_do': request.form["can_do"]
         }
-        print (userdata)
+        print(userdata)
 
         # DBへユーザ情報を追加
-        #table_service.insert_or_replace_entity(AZURE_TABLENAME_USER, userdata)
+        TABLE_SERVICE.insert_or_replace_entity(AZURE_TABLENAME_USER, userdata)
         print("send data to azure")
 
         result = {
-                "result":True,
-                "data":{
-                    "userId":userdata['RowKey'],
-                    "user_hash":userdata["PartitionKey"]
-                    }
-                }
+            "result":True,
+            "data":{
+                "userId":userdata['RowKey'],
+                "user_hash":userdata["PartitionKey"]
+            }
+        }
 
     except Exception as exceptvar:
         print("except:"+ str(exceptvar))
@@ -75,7 +77,7 @@ def get_user():
         number = request.args.get('num') - 1
 
         # テーブルからエリア条件に一致するユーザを取得
-        userlist = table_service.query_entities(
+        userlist = TABLE_SERVICE.query_entities(
             table_name=AZURE_TABLENAME_USER,
             filter="places eq " + user_area
         )
@@ -90,7 +92,7 @@ def get_user():
                     "user_name":user['user_name'],
                     "user_gender":user['gender'],
                     "user_age":user['user_age']
-                    }
+                }
             }
 
         else:
@@ -122,16 +124,16 @@ def help_offer_registration():
             'can_do': request.form["can_do"]
         }
         # お助け情報の追加
-        table_service.insert_or_replace_entity(AZURE_TABLENAME_HELP, helpdata)
+        TABLE_SERVICE.insert_or_replace_entity(AZURE_TABLENAME_HELP, helpdata)
         print("send data to azure")
 
         result = {
-                "result":True,
-                "data":{
-                    "helpId":userdata['RowKey'],
-                    "help_hash":userdata["PartitionKey"]
-                    }
-                }
+            "result":True,
+            "data":{
+                "helpId":helpdata['RowKey'],
+                "help_hash":helpdata["PartitionKey"]
+            }
+        }
 
     except Exception as except_var:
         print("except:"+except_var)
