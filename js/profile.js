@@ -12,6 +12,7 @@ $("#user").submit(function(event){
     /* event.preventDefault(); */
     /* alert($('form').serialize()); */
     var test=$('form').serialize();
+    $.post('https://correliv.azurewebsites.net/user/registration',$('form').serialize())
     alert(test);
 
 })
