@@ -1,3 +1,9 @@
+/* サーバーから値を取得する */
+.done(function(data){
+    console.log(data.form);
+})
+
+
 var flag;
 
 $('a').on('click',function(){
@@ -20,7 +26,6 @@ $('a').on('click',function(){
     }else if(class_name=='pe8'){
         flag=8;
     }
-    alert('押されたのは'+class_name+'でした');
     $('.popup').addClass('show').fadeIn();
 });
 
@@ -31,6 +36,6 @@ $('#close').on('click',function(){
 
 /* 決定した後*/
 $('#decide').on('click',function(){
-    location.href="../index.html";
+    location.href="C:/Users/ema/Desktop/hackU/index.html";
 })
 
