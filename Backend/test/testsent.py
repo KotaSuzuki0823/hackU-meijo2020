@@ -9,12 +9,14 @@ def send_user_data_test():
         'gender': "男",
         'user_age': int("23"),
         'places': "aichi",
+        'user_address': "",
         'user_tel': "08000000000",
         'can_do': "買い物"
     }
 
-    response = requests.post('https://correliv.azurewebsites.net/user/registration', data)
-    print(response.status_code)    # HTTPのステータスコード取得
+    response = requests.post('https://correliv.herokuapp.com/user/registration', data)
+    #response = requests.post('http://localhost:3000/user/registration', data)
+    print(response)    # HTTPのステータスコード取得
     
 
 if __name__ == "__main__":
