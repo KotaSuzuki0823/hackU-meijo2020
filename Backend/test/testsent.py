@@ -3,12 +3,19 @@ import requests
 def send_user_data_test():
 
     data = {
-        'trackId': "12345"
+        'user_id': "kotasuzuki",        # 必須のキー情報，ユーザID
+        'user_name': "鈴木洸太",
+        'user_nic': "すずこー",
+        'gender': "男",
+        'user_age': int("23"),
+        'places': "aichi",
+        'user_tel': "08000000000",
+        'can_do': "買い物"
     }
 
-    response = requests.post('http://192.168.92.4:3000/trackingnumber/registration', data)
-    re = response.json()    # HTTPのステータスコード取得
-    print(re["result"])
+    response = requests.post('https://correliv.azurewebsites.net/user/registration', data)
+    print(response.status_code)    # HTTPのステータスコード取得
+    
 
 if __name__ == "__main__":
     send_user_data_test()
