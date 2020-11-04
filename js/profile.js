@@ -11,6 +11,7 @@ $("user").submit(function(event){
 $("#user").submit(function(event){
     /* event.preventDefault(); */
     /* alert($('form').serialize()); */
+    var url="";
     var test=$('form').serialize();
     alert(test);
 
