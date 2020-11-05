@@ -30,9 +30,32 @@ dl dd{
 input[type="text"]{
     width: 50%;
 }
+.how_long{
+    margin: 1em;
+}
 
+#outline{
+    font-size: 1em;
+}
+textarea{
+    font-size: 1em;
+}
 input{
     font-size: 1em;
     padding: 5px;
 }
 
+.button{
+    text-align: center;
+}
+.button input{
+    font-size: 1.5em;
+}
+.back{
+    text-align: right;
+}
+.back a{
+    font-size: 2em;
+    color: rgb(245, 171, 11);
+    margin-right: 1.5em;
+}
