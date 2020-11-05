@@ -1,26 +1,6 @@
-.people1{
-    background-color: rgba(21, 190, 241, 0.849);
-}
-.people2{
-    background-color: rgb(247, 9, 227);
-}
-.people3{
-    background-color: rgba(21, 190, 241, 0.849);
-}
-.people4{
-    background-color: rgb(247, 9, 227);
-}
-.people5{
-    background-color: rgba(21, 190, 241, 0.849);
-}
-.people6{
-    background-color: rgb(247, 9, 227);
-}
-.people7{
-    background-color: rgb(247, 9, 227);
-}
-.people8{
-    background-color: rgb(247, 9, 227);
+/* デフォルトで灰色 */
+#people{
+    background-color: rgba(238, 241, 241, 0.849);
 }
 
 /* プロフィールの欄 */

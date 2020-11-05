@@ -1,11 +1,6 @@
-/* サーバーから値を取得する */
-.done(function(data){
-    console.log(data.form);
-})
-
-
 var flag;
 
+/* 人を選択した時の操作 */
 $('a').on('click',function(){
     //押されたボタンのclassを取得
     var class_name=$(this).attr('class')
@@ -26,16 +21,64 @@ $('a').on('click',function(){
     }else if(class_name=='pe8'){
         flag=8;
     }
+        
     $('.popup').addClass('show').fadeIn();
 });
-
 /* popupの非表示 */
 $('#close').on('click',function(){
     $('.popup').fadeOut();
 })
-
 /* 決定した後*/
 $('#decide').on('click',function(){
     location.href="C:/Users/ema/Desktop/hackU/index.html";
+    alert(data[flag-1].name+'にお願いをします');
+
+    /* postで色々と通信を行う
+        ・お助けで入力した詳細
+        ・お願いする人
+        ・あと何かあるかな
+    */
+
 })
 
+
+/* 若者のデータをもとに処理を行う */
+$("div").each(function(index,element){
+    var h='<dl><dt>名前</dt><dd>'+data[index].name
+        +'</dd><dt>年齢</dt><dd>'+data[index].age
+        +'</dd><dt>性別</dt><dd>'+data[index].jender
+        +'</dd><dt>住み</dt><dd>'+data[index].adress
+        +'</dd></dl>';
+        
+    $(this).append(h);
+    /* 性別に応じて色付け */
+    if(data[index].jender=="男"){
+        $(this).css('background-color','rgba(21, 190, 241, 0.849)');
+    }else if(data[index].jender=="女"){
+        $(this).css('background-color','rgb(247, 9, 227)')
+    };
+});
+
+
+/* テスト用にプロフィールオブジェクトを生成する */
+
+var data=[
+    {
+        "name":"江間結斗",
+        "age":"20",
+        "jender":"男",
+        "adress": "愛知県"
+    },
+    {
+        "name":"荻野あきょみち",
+        "age":"21",
+        "jender":"男",
+        "adress":"愛知県"
+    },
+    {
+        "name":"女の子A",
+        "age":"18",
+        "jender":"女",
+        "adress":"岐阜県"
+    }
+];
