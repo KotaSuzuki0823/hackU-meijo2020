@@ -1,3 +1,24 @@
+var data=[
+    {
+        "name":"江間結斗",
+        "age":"20",
+        "jender":"男",
+        "adress": "愛知県"
+    },
+    {
+        "name":"荻野あきょみち",
+        "age":"21",
+        "jender":"男",
+        "adress":"愛知県"
+    },
+    {
+        "name":"女の子A",
+        "age":"18",
+        "jender":"女",
+        "adress":"岐阜県"
+    }
+];
+
 var flag;
 
 /* 人を選択した時の操作 */
@@ -30,9 +51,8 @@ $('#close').on('click',function(){
 })
 /* 決定した後*/
 $('#decide').on('click',function(){
-    location.href="C:/Users/ema/Desktop/hackU/index.html";
     alert(data[flag-1].name+'にお願いをします');
-
+    location.href="C:/Users/ema/Desktop/hackU/index.html";
     /* postで色々と通信を行う
         ・お助けで入力した詳細
         ・お願いする人
@@ -62,23 +82,3 @@ $("div").each(function(index,element){
 
 /* テスト用にプロフィールオブジェクトを生成する */
 
-var data=[
-    {
-        "name":"江間結斗",
-        "age":"20",
-        "jender":"男",
-        "adress": "愛知県"
-    },
-    {
-        "name":"荻野あきょみち",
-        "age":"21",
-        "jender":"男",
-        "adress":"愛知県"
-    },
-    {
-        "name":"女の子A",
-        "age":"18",
-        "jender":"女",
-        "adress":"岐阜県"
-    }
-];
