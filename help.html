@@ -6,12 +6,24 @@
     <meta charset="UTF-8">
     <title>お助け投稿</title>
     <link rel="stylesheet" type="text/css" href="help.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 </head>
 
 <body>
     <h1>お手伝いの内容を書いてください</h1>
     <form action="index.html" method="post">
         <dl>
+            <dt>日時</dt>
+            <dd><input type="text" id="input1"></dd>
+            <dd>
+                <label><input type="radio" name="time" value="朝">朝</label>
+                <label> <input type="radio" name="time" value="昼">昼</label>
+                <label> <input type="radio" name="time" value="夕方">夕方</label>
+            </dd>
+            <dt>所要時間</dt>
+            <dd>
+                約<input type="number" name="how_long" class="how_long">時間
+            </dd>
             <dt>仕事内容</dt>
             <dd><select id="outline">
                     <option value="買い物">買い物</option>
@@ -23,16 +35,27 @@
             <label>
                 <dt>詳細<br></dt>
                 <dd>
-                    <textarea name="detail" cols="40" rows="8" placeholder="何か詳細があればここに書いてください。"></textarea>
+                    <textarea name="detail" cols="45" rows="8" placeholder="何か詳細があればここに書いてください。"></textarea>
             </label>
             </dd>
         </dl>
-        <input type="submit" value="送信する" formaction="profile_select.html">
+        <div class="button">
+            <input type="submit" value="送信する" formaction="profile_select.html">
+        </div>
     </form>
-    <p>
+    <div class="back">
         <a href="index.html">戻る</a>
-    </p>
+    </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+    <script>
+        $(function () {
+            $.datepicker.setDefaults(($.datepicker.regional["ja"]));
+            $("#input1").datepicker();
+        });
+    </script>
 </body>
 
 </html>
