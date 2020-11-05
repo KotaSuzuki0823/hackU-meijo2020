@@ -23,6 +23,7 @@ div{
     margin: 5px;
     text-align: left;
     position: relative;
+    color: black;
 }
 div a{
     display: block;
@@ -32,13 +33,18 @@ div a{
 }
 /* 全体 */
 main{
-    background-color: white;
+    background-color: rgb(35, 16, 87);
+    color: rgb(245, 171, 11);;
     display: flex;
     flex-wrap: wrap;
 }
 body{
     background-color: black;
 
+}
+h1{
+    width: 100%;
+    padding: 10px;
 }
 
 /* 以下三つがpopupに関するCSS　*/
@@ -47,7 +53,7 @@ body{
     height: 100vh;
     width: 100%;
     background: black;
-    opacity: 0.8;
+    opacity: 1;
     position: fixed;
     top: 0;
     left: 0;
@@ -55,7 +61,7 @@ body{
 .content{
     font-size: 2.5em;
     background: white;
-    opacity: 1.2;
+    opacity: 0.8;
     padding: 30px;
     width: 50%;
 }
@@ -63,24 +69,29 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.9;
 }
 /* popupのボタン */
 #decide{
     font-size: 0.8em;
+    opacity: 1;
 }
 .decide_wrap{
-    height: 2em;
+    height: 1.5em;
     width: 100%;
     text-align: center;
 }
 #close{
     font-size: 0.4em;
+    margin-top: 0%;
 }
 .close_wrap{
     width: 100%;
     text-align: right;
-
+    padding: 0;
+    line-height: 0cm;
 }
+
 #button{
     font-size: 0.5em;
     text-align: right;
