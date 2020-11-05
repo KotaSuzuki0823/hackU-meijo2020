@@ -14,13 +14,13 @@ STORAGE_NAME = os.getenv('AZURE_STRAGE_NAME')
 AZURE_TABLENAME_USER = 'user'
 AZURE_TABLENAME_HELP = 'help'
 
-# REAT API用
-API = Flask(__name__)
+# REAT api用
+app = Flask(__name__)
 
 # Azure Table Serviceに接続
 TABLE_SERVICE = TableService(account_name=STORAGE_NAME, account_key=STORAGE_KEY)
 
-@API.route('/user/registration', methods=['POST'])
+@app.route('/user/registration', methods=['POST'])
 def user_registration():
     '''
     ユーザー登録
@@ -62,7 +62,7 @@ def user_registration():
 
     return make_response(jsonify(result))
 
-@API.route('/user/get', methods=['GET'])
+@app.route('/user/get', methods=['GET'])
 def get_user():
     '''
     ユーザー情報の応答
@@ -74,7 +74,7 @@ def get_user():
         user_area = request.args.get('area')
 
         # 辞書表示に使うインデックス
-        number = request.args.get('num') - 1
+        number = int(request.args.get('num')) - 1
 
         # テーブルからエリア条件に一致するユーザを取得
         userlist = TABLE_SERVICE.query_entities(
@@ -82,24 +82,25 @@ def get_user():
             filter="places eq " + user_area
         )
 
-        if number < len(userlist):
-            user = userlist[number]
+        result = {}
+        for i in range(8):
+            if (i + (number*8)) < len(userlist):
+                user = userlist[i + (number*8)]
 
-            result = {
-                "result":True,
-                "data":{
-                    "userId":user["RowKey"],
-                    "user_name":user['user_name'],
-                    "user_gender":user['gender'],
-                    "user_age":user['user_age']
+                result[i] = {
+                    "data":{
+                        "userId":user["RowKey"],
+                        "user_name":user['user_name'],
+                        "user_gender":user['gender'],
+                        "user_age":user['user_age']
+                    }
                 }
-            }
 
-        else:
-            print("これ以上はありません．")
-            result = {
-                "result":False
-            }
+            else:
+                print("これ以上はありません．")
+                result[i] = {
+                    "data":None
+                }
 
     except Exception as except_var:
         print("except:"+except_var)
@@ -107,7 +108,7 @@ def get_user():
 
     return make_response(jsonify(result))
 
-@API.route('/help_offer/registration', methods=['POST'])
+@app.route('/help_offer/registration', methods=['POST'])
 def help_offer_registration():
     '''
     お助け情報の登録
@@ -123,6 +124,7 @@ def help_offer_registration():
             'detail': request.form["detail"],
             'can_do': request.form["can_do"]
         }
+
         # お助け情報の追加
         TABLE_SERVICE.insert_or_replace_entity(AZURE_TABLENAME_HELP, helpdata)
         print("send data to azure")
@@ -141,7 +143,7 @@ def help_offer_registration():
 
     return make_response(jsonify(result))
 
-@API.route('/help_offer/get', methods=['GET'])
+@app.route('/help_offer/get', methods=['GET'])
 def get_help_offer():
     '''
     お助け情報の送信
@@ -149,7 +151,7 @@ def get_help_offer():
     '''
     pass
 
-@API.errorhandler(404)
+@app.errorhandler(404)
 def not_found(error):
     '''
     404エラー
@@ -159,4 +161,4 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-    API.run(host='localhost', port=3000, debug=True)
+    app.run(host='localhost', port=3000, debug=True)
