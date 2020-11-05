@@ -1,5 +1,5 @@
 /* postの送信の仕方 
-$("user").submit(function(event){
+$("#user").submit(function(event){
     event.preventDefault();
     
     $.post('https://httpbin.org/post',$('form').serialize())
