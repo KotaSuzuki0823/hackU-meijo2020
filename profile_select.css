@@ -1,6 +1,5 @@
 /* デフォルトで灰色 */
 #people{
-    background-color: rgba(238, 241, 241, 0.849);
 }
 
 /* プロフィールの欄 */
@@ -17,15 +16,16 @@ dl dd{
 }
 
 /* 各人の表示台 */
-div{
+#people{
     width: 23%;
     height: 280px;
     margin: 5px;
     text-align: left;
     position: relative;
     color: black;
+    background-color: rgba(238, 241, 241, 0.849);
 }
-div a{
+#people a{
     display: block;
     position: absolute;
     width: 100%;
@@ -43,8 +43,18 @@ body{
 
 }
 h1{
-    width: 100%;
+    width: 80%;
     padding: 10px;
+    background-color: darkorange;
+}
+.renew{
+    height: 2em;
+    width: 15%;
+}
+#update{
+    border-radius: 10px;
+    height: 3em;
+    text-align: center;
 }
 
 /* 以下三つがpopupに関するCSS　*/

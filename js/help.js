@@ -20,7 +20,9 @@ var data=[
     }
 ];
 
-var flag;
+var flag;    
+var url = "http://localhost:5000/user/registration";
+
 
 /* 人を選択した時の操作 */
 $('a').on('click',function(){
@@ -43,8 +45,8 @@ $('a').on('click',function(){
     }else if(class_name=='pe8'){
         flag=8;
     }
-        
     $('.popup').addClass('show').fadeIn();
+
 });
 /* popupの非表示 */
 $('#close').on('click',function(){
@@ -64,7 +66,7 @@ $('#decide').on('click',function(){
 
 
 /* 若者のデータをもとに処理を行う */
-$("div").each(function(index,element){
+$("div[class!='renew']").each(function(index,element){
     var h='<dl><dt>名前</dt><dd>'+data[index].name
         +'</dd><dt>年齢</dt><dd>'+data[index].age
         +'</dd><dt>性別</dt><dd>'+data[index].jender
