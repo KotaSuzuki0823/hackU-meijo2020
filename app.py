@@ -9,8 +9,9 @@ app = Flask(__name__, static_folder='static')
 # システム変数(環境変数)から取得
 STORAGE_KEY = os.getenv(
     'AZURE_STRAGE_KEY',
-    "eZT/akrx6kXBUvRmwVrOZsn4nPP7wVImbxN6BOf3HFszIZBwM3hGMAQQWXRZMDO0xz7PreMRZB0WT5M71T5BuQ=="
+    None
     )
+
 STORAGE_NAME = os.getenv('AZURE_STRAGE_NAME', 'haku2020')
 
 AZURE_TABLENAME_USER = 'user'
@@ -122,5 +123,5 @@ def help_registration():
     return redirect(URL)
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=5000, threaded=True)
-
+    PORT = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=PORT)
