@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>お助け投稿</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/help.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript">
+        function check(){
+            if ((help_form.date.value == "") || (help_form.time.value == "")){
+                alert("日時を入力して下さい");    
+                return false; 
+            }if (help_form.how_long.value == ""){
+                alert("所要時間を入力して下さい");    
+                return false; 
+            }if (help_form.outline.value == ""){
+                alert("仕事概要を選択して下さい");    
+                return false;
+            }else{
+                return true;    //送信ボタン本来の動作を実行します
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>お手伝いの内容を書いてください</h1>
+    <form action="/help/registration" method="POST" enctype="multipart/form-data" name="help_form">
+        <dl>
+            <dt>日時</dt>
+            <dd><input type="text" id="input1" name="date" label for="date"></dd>
+            <dd>
+                <label><input type="radio" name="time" value="朝" label for="time">朝</label>
+                <label> <input type="radio" name="time" value="昼" label for="time">昼</label>
+                <label> <input type="radio" name="time" value="夕方" label for="time">夕方</label>
+            </dd>
+            <dt>所要時間</dt>
+            <dd>
+                約<input type="number" name="how_long" class="how_long" label for="how_long">時間
+            </dd>
+            <dt>仕事内容</dt>
+
+            <dd>
+                <select name="outline" id="outline" label for="outline">
+                    <option value="買い物">買い物</option>
+                    <option value="家の手伝い">家の手伝い</option>
+                    <option value="庭の掃除">庭の掃除</option>
+                    <option value="その他">その他</option>
+                </select>
+            </dd>
+            <label>
+                <dt>詳細<br></dt>
+                <dd>
+                    <input name="detail" cols="45" rows="8" placeholder="何か詳細があればここに書いてください。" label for="detail"></input>
+            </label>
+            </dd>
+        </dl>
+        <div class="submit_button">
+            <input id="regist" type="submit" name="submit" value="送信する" onclick="return check()">
+        </div>
+    </form>
+    <div class="back">
+        <a href="/">戻る</a>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+    <script>
+        $(function () {
+            $.datepicker.setDefaults(($.datepicker.regional["ja"]));
+            $("#input1").datepicker();
+        });
+    </script>
+</body>
+
+</html>

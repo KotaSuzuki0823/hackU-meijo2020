@@ -5,33 +5,33 @@
 <head>
     <meta charset="UTF-8">
     <title>ユーザープロフィール</title>
-    <link rel="stylesheet" type="text/css" href="profile.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/profile.css">
 </head>
 
 <body>
     <h1>プロフィール入力してください</h1>
-    <form id="user" method="POST">
+    <form action="/user/registration" method="POST" enctype="multipart/form-data">
         <dl>
             <label>
                 <dt>名前</dt>
-                <dd><input type="text" name="user_name"></dd>
+                <dd><input type="text" name="user_name" label for="user_name"></dd>
             </label>
             <label>
                 <dt>ニックネーム</dt>
-                <dd><input type="text" name="user_nic"></dd>
+                <dd><input type="text" name="user_nic" label for="user_nic"></dd>
             </label>
             <dt>性別</dt>
             <dd>
-                <label><input type="radio" name="gender" value="男">男性</label>
-                <label><input type="radio" name="gender" value="女">女性</label>
+                <label><input type="radio" name="gender" label for="gender" value="男">男性</label>
+                <label><input type="radio" name="gender" label for="gender" value="女">女性</label>
             </dd>
             <label>
                 <dt>年齢</dt>
-                <dd><input type="number" name="user_age"></dd>
+                <dd><input type="number" name="user_age" label for="user_age"></dd>
             </label>
             <dt class="adress">住所</dt>
             <dd>
-                <select name="places" id="places">
+                <select name="places" id="places" label for="places">
                     <option value="aichi" selected>愛知</option>
                     <option value="gihu">岐阜</option>
                     <option value="mie">三重</option>
@@ -40,17 +40,17 @@
             </dd>
             <dt>住所（県以下）</dt>
             <dd>
-                <textarea placeholder="県以下の住所を書いてください(任意)" rows="3" name="user_address" form="user"></textarea>
+                <input type="text" placeholder="県以下の住所を書いてください(任意)" rows="3" name="user_address" label for="user_address"></input>
             </dd>
             <dt>電話番号</dt>
             <dd>
-                <input type="tel" name="user_tel">
+                <input type="tel" name="user_tel" label for="user_tel">
             </dd>
             <dt>出来ること</dt>
             <dd>
-                <input type="checkbox" name="can_do" value="buy">買い物
-                <input type="checkbox" name="can_do" value="moyou">模様替え
-                <input type="checkbox" name="can_do" value="other">その他
+                <input type="checkbox" name="can_do" label for="can_do" value="buy">買い物
+                <input type="checkbox" name="can_do" label for="can_do" value="moyou">模様替え
+                <input type="checkbox" name="can_do" label for="can_do" value="other">その他
             </dd>
         </dl>
         <div class="submit_button">
@@ -58,7 +58,7 @@
         </div>
     </form>
     <p class="back">
-        <a href="index.html">戻る</a>
+        <a href="/">戻る</a>
     </p>
     <div id="result"></div>
 
