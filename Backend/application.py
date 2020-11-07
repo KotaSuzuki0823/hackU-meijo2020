@@ -163,4 +163,5 @@ def not_found(error):
 if __name__ == '__main__':
     print("running porchman")
     PORT = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=PORT)
+    ADDR = os.getenv("ADDR", "0.0.0.0")
+    app.run(host=ADDR, port=PORT)
