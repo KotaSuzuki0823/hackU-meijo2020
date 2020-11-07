@@ -20,13 +20,11 @@ dl dt{
     float: left;
     padding: 1em;
 }
-
 dl dd{
     border-bottom: 1px solid #cccccc;
     margin: 0;
     padding: 1em 0 1em 18em;
 }
-
 dd #places{
     text-align: 1em;
     height: 1.5em;
@@ -34,30 +32,32 @@ dd #places{
     font-size: 1em;
     margin-right: 1em;
 }
-
 input[type="text"]{
     width: 50%;
 }
-
 input{
     font-size: 1em;
     padding: 5px;
 }
-
 textarea{
     font-size: 1em;
     min-width: 50%;
     height: 1em;
 }
-.submit{
-    margin-left: 45%;
-    font-size: 2em;
+input[type="submit"]{
+    font-size: 1.4em;
+    border-radius: 10px;
 }
 .back{
     font-size: 2em;
     text-align: right;
+    color: rgb(245, 171, 11);;
+
 }
 .back a{
-    color: whitesmoke;
+    color: rgb(245, 171, 11);;
 
+}
+.submit_button{
+    text-align: center;
 }

@@ -48,8 +48,9 @@ input{
 .button{
     text-align: center;
 }
-.button input{
+input[type="submit"]{
     font-size: 1.5em;
+    border-radius: 10px;
 }
 .back{
     text-align: right;

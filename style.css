@@ -3,35 +3,24 @@ img{
     margin: 5px;
 }
 .help{
-    background-color: black;
     width: 48%;
-
 }
 
 .my_info{
-    background: hsl(180, 90%, 49%);
     width: 48%;
 }
 
 .senior{
-    background: chocolate;
     width: 48%;
 }
 
 .match{
-    background: rgb(132, 210, 30);
     width: 48%;
-}
-
-body{
-    background: #df0c8e;
-
 }
 
 .container{
     margin-top: 0%;
     width: 100%;
-    background-color: blanchedalmond;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
