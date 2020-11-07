@@ -1,27 +1,31 @@
 img{
     width: 100%;
     margin: 5px;
+    border: black;
 }
 .help{
-    width: 48%;
+    width: 40%;
 }
 
 .my_info{
-    width: 48%;
+    width: 40%;
 }
 
 .senior{
-    width: 48%;
+    width: 40%;
 }
 
 .match{
-    width: 48%;
+    width: 40%;
 }
-
 .container{
     margin-top: 0%;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+body{
+    background-color: blanchedalmond;
 }

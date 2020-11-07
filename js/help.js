@@ -55,7 +55,7 @@ $('#close').on('click',function(){
 /* 決定した後*/
 $('#decide').on('click',function(){
     alert(data[flag-1].name+'にお願いをします');
-    location.href="C:/Users/ema/Desktop/hackU/index.html";
+    location.href="./index.html";
     /* postで色々と通信を行う
         ・お助けで入力した詳細
         ・お願いする人
@@ -63,7 +63,6 @@ $('#decide').on('click',function(){
     */
 
 })
-
 
 /* 若者のデータをもとに処理を行う */
 $("div[class!='renew']").each(function(index,element){
@@ -81,6 +80,4 @@ $("div[class!='renew']").each(function(index,element){
         $(this).css('background-color','rgb(247, 9, 227)')
     };
 });
-
-
 

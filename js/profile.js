@@ -22,23 +22,3 @@ $("form").submit(function (event) {
     alert('完了');
 });
 */
-var url = "http://localhost:5000/user/registration";
-
-
-$("form").submit(function getdataFetch() {
-    var response=$('form').serialize();
-    fetch(url, {
-        mode: 'cors'
-    })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (body) {
-            console.log(body.fetch)
-            document.getElementById("resultFetch").innerText += body.fetch;
-        })
-        .catch(function (error) {
-            console.log(error)
-            document.getElementById("resultFetch").innerText = 'ERR';
-        });
-});
