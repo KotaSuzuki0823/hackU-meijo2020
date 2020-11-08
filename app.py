@@ -1,4 +1,5 @@
 import hashlib
+import requests
 import os
 import time
 from flask import *
@@ -17,10 +18,12 @@ STORAGE_NAME = os.getenv('AZURE_STRAGE_NAME', 'haku2020')
 AZURE_TABLENAME_USER = 'user'
 AZURE_TABLENAME_HELP = 'help'
 
+area = 'aichi'
+
 # Azure Table Serviceに接続
 TABLE_SERVICE = TableService(account_name=STORAGE_NAME, account_key=STORAGE_KEY)
 
-URL = os.getenv('AZURE_URL', 'http://localhost:5000/')
+URL = os.getenv('AZURE_URL', 'http://0.0.0.0:5000/')
 
 @app.route("/", methods=['GET', 'POST'])
 def main_page():
@@ -38,6 +41,86 @@ def helppage():
 def matchingpage():
     return render_template("matching.html")
 
+@app.route("/select", methods=["GET", "POST"])
+def selectpage():
+    # クエリ文字列から検索するエリアを指定
+    # http://localhost:3000/user/get?area=aichi&num=1
+    user_area = request.args.get('area')
+
+    # テーブルからエリア条件に一致するユーザを取得
+    userlist = TABLE_SERVICE.query_entities(
+        table_name=AZURE_TABLENAME_USER,
+        filter="places eq " + area
+    )
+    number = 0
+
+    result = {}
+    for i in range(8):
+        if (i + (number*8)) < len(userlist):
+            user = userlist[i + (number*8)]
+
+            result[i] = {
+                "data"+str(i):{
+                    "userId":user["RowKey"],
+                    "user_name":user['user_name'],
+                    "user_gender":user['gender'],
+                    "user_age":user['user_age']
+                }
+            }
+
+        else:
+            print("これ以上はありません．")
+            result[i] = {
+                "data":None
+            }
+    return render_template("profile_select.html")
+
+@app.route('/user/get', methods=['GET'])
+def get_user():
+    '''
+    ユーザー情報の応答
+    :return:
+    '''
+    try:
+        # クエリ文字列から検索するエリアを指定
+        # http://localhost:3000/user/get?area=aichi&num=1
+        user_area = request.args.get('area')
+
+        # 辞書表示に使うインデックス
+        number = int(request.args.get('num')) - 1
+
+        # テーブルからエリア条件に一致するユーザを取得
+        userlist = TABLE_SERVICE.query_entities(
+            table_name=AZURE_TABLENAME_USER,
+            filter="places eq " + user_area
+        )
+
+        result = {}
+        for i in range(8):
+            if (i + (number*8)) < len(userlist):
+                user = userlist[i + (number*8)]
+
+                result[i] = {
+                    "data":{
+                        "userId":user["RowKey"],
+                        "user_name":user['user_name'],
+                        "user_gender":user['gender'],
+                        "user_age":user['user_age']
+                    }
+                }
+
+            else:
+                print("これ以上はありません．")
+                result[i] = {
+                    "data":None
+                }
+
+    except Exception as except_var:
+        print("except:"+except_var)
+        abort(500)
+
+    return make_response(jsonify(result))
+
 @app.route('/user/registration', methods=['POST'])
 def user_registration():
     '''
@@ -45,14 +128,14 @@ def user_registration():
     :return:
     '''
     user_address_form = request.form["user_address"]
-        if user_address_form == None:
-            user_address_form=""
+    if user_address_form == None:
+        user_address_form=""
     try:
         # クエストからユーザ情報を抽出し辞書型に変換
         userdata = {
             # 必須のキー情報,user_idをSHA256でハッシュ化
-            'PartitionKey': hashlib.sha256(request.form["user_name"].encode('utf-8')).hexdigest(),
-            'RowKey': request.form["user_name"],   # 必須のキー情報，ユーザID
+            'PartitionKey': hashlib.sha256((request.form["user_id"]+request.form["user_name"]).encode('utf-8')).hexdigest(),
+            'RowKey': request.form["user_id"],   # 必須のキー情報，ユーザID
             'user_name': request.form["user_name"],
             'user_nic': request.form["user_nic"],
             'gender': request.form["gender"],
@@ -69,13 +152,16 @@ def user_registration():
             "result":True,
         }
 
+        area = request.form["places"]
+        print(area)
+
     except Exception as exceptvar:
         print("except:"+ str(exceptvar))
         result = {
             "result":False,
         }
         abort(500)
-    
+
     make_response(jsonify(result))
 
     return redirect(URL)
@@ -87,7 +173,6 @@ def help_registration():
     :return:
     '''
     try:
-
         detail = request.form["detail"]
         if detail == None:
             detail=""
@@ -101,6 +186,7 @@ def help_registration():
             'time': request.form["time"],
             'how_long': request.form["how_long"],
             'outline': request.form["outline"],
+            'area': area,
             'detail': detail
         }
 
@@ -120,7 +206,7 @@ def help_registration():
 
     make_response(jsonify(result))
 
-    return redirect(URL)
+    return redirect(URL+'select')
 
 if __name__ == "__main__":
     PORT = int(os.getenv("PORT", 5000))

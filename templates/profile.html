@@ -6,11 +6,39 @@
     <meta charset="UTF-8">
     <title>ユーザープロフィール</title>
     <link rel="stylesheet" type="text/css" href="../static/css/profile.css">
+    <script type="text/javascript">
+        function check(){
+            if ((user_form.user_name.value == "") || (user_form.time.value == "")){
+                alert("名前を入力して下さい");    
+                return false; 
+            }if (user_form.user_nic.value == ""){
+                alert("ニックネームを入力して下さい");    
+                return false; 
+            }if (user_form.user_id.value == ""){
+                alert("IDを入力して下さい");    
+                return false;
+            }if (user_form.gender.value == ""){
+                alert("性別を選択して下さい");    
+                return false;
+            }if (user_form.places.value == ""){
+                alert("住所を選択して下さい");    
+                return false;
+            }if (user_form.user_tel.value == ""){
+                alert("電話番号を入力して下さい");    
+                return false;
+            }if (user_form.can_do.value == ""){
+                alert("出来ることを選択して下さい");    
+                return false;
+            }else{
+                return true;    //送信ボタン本来の動作を実行します
+            }
+        }
+    </script>
 </head>
 
 <body>
     <h1>プロフィール入力してください</h1>
-    <form action="/user/registration" method="POST" enctype="multipart/form-data">
+    <form action="/user/registration" method="POST" enctype="multipart/form-data" name="user_form">
         <dl>
             <label>
                 <dt>名前</dt>
@@ -19,6 +47,10 @@
             <label>
                 <dt>ニックネーム</dt>
                 <dd><input type="text" name="user_nic" label for="user_nic"></dd>
+            </label>
+            <label>
+                <dt>ユーザID</dt>
+                <dd><input type="text" name="user_id" label for="user_id"></dd>
             </label>
             <dt>性別</dt>
             <dd>
